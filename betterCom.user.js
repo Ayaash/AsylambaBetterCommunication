@@ -81,15 +81,20 @@ function toggleData() {
       var color = "";
       var info = sector[0].substring(0, sector[0].length-1);
       var info2 = sector[0];
+      var infoBox = document.getElementById("sector-info-"+i);
       if(sectorBool) {
-        if(info == "Prioritaire" || info2 == "Prioritaire")
+        if(info == "Prioritaire" || info2 == "Prioritaire") {
           color = "#307600";
-        else if(info == "Gelé" || info2 == "Gelé")
+          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Prioritaire";
+        }
+        else if(info == "Gelé" || info2 == "Gelé") {
           color = "#404040";
+          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Gelé";
+        }
         else {
           color = "#1028A9";
-          var infoBox = document.getElementById("sector-info-"+i);
           infoBox.getElementsByTagName("a")[0].href = sector[0];
+          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Partagé";
         }
       }
       var bigSector = document.getElementById("sectors").firstChild.childNodes[i-1];
@@ -105,5 +110,4 @@ function init() {
 }
 
 init();
-
 
