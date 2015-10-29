@@ -94,6 +94,7 @@ function toggleData() {
         else {
           color = "#1028A9";
           infoBox.getElementsByTagName("a")[0].href = sector[0];
+          infoBox.getElementsByTagName("a")[0].target = "_blank";
           infoBox.getElementsByTagName("h2")[0].innerHTML += " - Partagé";
         }
       }
@@ -110,4 +111,3 @@ function init() {
 }
 
 init();
-
