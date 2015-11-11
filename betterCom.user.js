@@ -4,7 +4,7 @@
 // @include     http://game.asylamba.com/s8/map
 // @include     http://game.asylamba.com/s8/map*
 // @updateURL   https://github.com/Akulen/Asylamba-User-Script/raw/master/better_communications.user.js
-// @version     1
+// @version     1.01
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
@@ -17,6 +17,7 @@ var sectorInfo = [];
 var sectorBool = false;
 
 var tactical_pic = "http://game.asylamba.com/s8/public/media/faction/data/tactical.png";
+var diplomacy_pic = "http://game.asylamba.com/s8/public/media/faction/data/diplomacy.png";
 
 function addCss(newCss)
 {
@@ -36,15 +37,21 @@ function createIcon()
   addCss("#moreInfo a { position: relative; display: inline-block; height: 30px; width: 30px; margin: 1px 0px 1px 1px; background: #0A0A0A none repeat scroll 0% 0%; }");
   addCss("#moreInfo a.active { background: #B17A00 none repeat scroll 0% 0%; }");
   var sectorInfoDiv = document.createElement('div');
-  sectorInfoDiv.innerHTML = '<div id="moreInfo"><a id="sectorInfo" class="sh hb lb" href="#" title="Infos"><img src="'+tactical_pic+'" alt="minimap"></a></div>';
+  sectorInfoDiv.innerHTML = '<div id="moreInfo"><a id="sectorInfo" class="sh hb lb" href="#" title="Infos"><img src="'+tactical_pic+'" alt="minimap"></a><a id="zoom" class="sh hb lb" href="#" title="Zoom"><img src="'+diplomacy_pic+'" alt="minimap"></a></div>';
   document.getElementById("container").appendChild(sectorInfoDiv);
   document.getElementById('sectorInfo').addEventListener('click', toggleSectorInfo, false);
+  document.getElementById('zoom').addEventListener('click', toggleZoom, false);
 }
 
 function toggleSectorInfo()
 {
 	sectorBool = !sectorBool;
 	toggleData();
+}
+
+function toggleZoom()
+{
+  $("#map").css('-moz-transform','scale('+prompt("Nouveau Zoom (compris entre 0 et 1)")+')')
 }
 
 function getData() {
@@ -81,21 +88,15 @@ function toggleData() {
       var color = "";
       var info = sector[0].substring(0, sector[0].length-1);
       var info2 = sector[0];
-      var infoBox = document.getElementById("sector-info-"+i);
       if(sectorBool) {
-        if(info == "Prioritaire" || info2 == "Prioritaire") {
+        if(info == "Prioritaire" || info2 == "Prioritaire")
           color = "#307600";
-          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Prioritaire";
-        }
-        else if(info == "Gelé" || info2 == "Gelé") {
+        else if(info == "Gelé" || info2 == "Gelé")
           color = "#404040";
-          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Gelé";
-        }
         else {
           color = "#1028A9";
+          var infoBox = document.getElementById("sector-info-"+i);
           infoBox.getElementsByTagName("a")[0].href = sector[0];
-          infoBox.getElementsByTagName("a")[0].target = "_blank";
-          infoBox.getElementsByTagName("h2")[0].innerHTML += " - Partagé";
         }
       }
       var bigSector = document.getElementById("sectors").firstChild.childNodes[i-1];
@@ -111,3 +112,4 @@ function init() {
 }
 
 init();
+
