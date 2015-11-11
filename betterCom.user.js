@@ -51,7 +51,11 @@ function toggleSectorInfo()
 
 function toggleZoom()
 {
-  $("#map").css('-moz-transform','scale('+prompt("Nouveau Zoom (compris entre 0 et 1)")+')')
+  var nZoom = prompt("Nouveau Zoom (compris entre 0 et 1)");
+  $("#map").css('-moz-transform','scale('+nZoom+')');
+  $(".viewport").css('-moz-transform','scale('+String(1/nZoom)+')');
+  $("#map").css('-webkit-transform','scale('+nZoom+')');
+  $(".viewport").css('-webkit-transform','scale('+String(1/nZoom)+')');
 }
 
 function getData() {
